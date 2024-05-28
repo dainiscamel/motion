@@ -1,13 +1,4 @@
-import { useState } from "react";
-
-// TODO: input update
-const useInput = (initialValue: string | number) => {
-  const [value, setValue] = useState(initialValue);
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-  return { value, onChange };
-};
+import { useInput } from "./hooks/useInput/useInput";
 
 const App = () => {
   const input = useInput("test");
