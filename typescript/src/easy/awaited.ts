@@ -17,11 +17,17 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type MyAwaited<T> = T extends Promise<infer U> // 1. T가 Promise 타입인지 check
-  ? U extends Promise<any> // 재귀 호출을 통해 Promise 타입 추출
-    ? MyAwaited<U>
-    : U
-  : T; //T가 Promise 타입이 아니라면 T 자체를 반환.
+// type MyAwaited<T> = T extends Promise<infer U> // 1. T가 Promise 타입인지 check
+//   ? U extends Promise<any> // 재귀 호출을 통해 Promise 타입 추출
+//     ? MyAwaited<U>
+//     : U
+//   : T; //T가 Promise 타입이 아니라면 T 자체를 반환.
+
+type MyAwaited<T> = T extends Promise<infer U>
+  ? MyAwaited<U>
+  : T extends { then: (onfulfilled: (arg: infer U) => any) => any }
+  ? MyAwaited<U>
+  : T;
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from "@type-challenges/utils";
